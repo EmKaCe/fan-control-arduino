@@ -35,6 +35,7 @@ void loop() {
     if (update < 1) {
         String payload = createPayload(aht.temp, aht.hum);
         if (sendData(payload) == 200) {
+            // TODO: parse response
             update = 10;
         } else {
             delay(500);
