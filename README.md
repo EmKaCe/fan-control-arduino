@@ -8,6 +8,7 @@ This project includes code to communicate with the [fan-control-backend](https:/
 - WeMos D1 Mini
 - SSD1306 (indoor)
 - AHT10
+- Li-Ion Battery (outdoor)
 
 ### Software:
 - PlatformIO
@@ -34,3 +35,9 @@ This project includes code to communicate with the [fan-control-backend](https:/
 ### WiFi
 1. Open the [indoor wifi.cpp](/indoor/src/wifi.cpp) or [outdoor wifi.cpp](/outdoor/src/wifi.cpp) respectively.
 2. Change `"SSID_HERE"` and `"PASSWORD_HERE"` to your WiFi credentials accordingly.
+
+### Battery (outdoor only)
+1. Open [battery.cpp](/outdoor/src/battery.cpp).
+2. Change `maxVoltage` according to the maximum output voltage.
+3. Change `minVoltage` according to the cutoff voltage.
+4. Adjust `calibration` based on dropout voltage.
