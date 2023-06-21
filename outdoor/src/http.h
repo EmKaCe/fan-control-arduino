@@ -1,5 +1,11 @@
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include <ESP8266HTTPClient.h>
-#include <ESP8266WiFi.h>
+#include <WiFiClientSecure.h>
 
-int sendData(String payload);
+struct APIResponse {
+    bool success;
+    int sleepDurationMilliseconds;
+};
+
+APIResponse postOutdoor(float temp, float hum, float battery);

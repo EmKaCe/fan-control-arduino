@@ -17,27 +17,16 @@ void setup() {
     delay(1000);
 }
 
-String createPayload(float temp, float hum, float battery) {
-    DynamicJsonDocument doc(1024);
-    doc["temperature"] = temp;
-    doc["relativeHumidity"] = hum;
-    doc["battery"] = battery;
-    String payload;
-    serializeJson(doc, payload);
-    return payload;
-}
-
 void loop() {
     ahtData aht = getAHTData();
     float battery = getBatteryPercentage();
+    int sleep = 1000;
     if (update < 1) {
-        String payload = createPayload(aht.temp, aht.hum, battery);
-        if (sendData(payload) == 200) {
-            // TODO: parse response
-            update = 10;
-        } else {
-            delay(500);
+        APIResponse response = postOutdoor(aht.temp, aht.hum, battery);
+        if (response.success) {
+            sleep = response.sleepDurationMilliseconds;
         }
+        Serial.printf("Deep Sleep for: %dms\n", sleep);
     } else {
         update--;
     }
@@ -49,5 +38,5 @@ void loop() {
     Serial.printf("Battery: %.2f%%", battery);
     Serial.println("");
     Serial.println("-----------");
-    delay(5000);
+    ESP.deepSleep(sleep * 1000);
 }

@@ -17,7 +17,7 @@ APIResponse postIndoor(float temp, float hum, bool window) {
             doc["windowOpen"] = window;
             serializeJson(doc, payload);
         }
-        http.begin(client, "http://" + api + "/indoor");
+        http.begin(client, "http://" + api + "/indoor"); // TODO: Change this with HTTPs
         http.addHeader("Content-Type", "application/json");
         code = http.POST(payload);
     }
