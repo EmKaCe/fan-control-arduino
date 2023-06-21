@@ -1,9 +1,9 @@
 #include <Adafruit_AHTX0.h>
 
-struct ahtData {
+struct AhtData {
     float temp;
     float hum;
 };
 
 void checkAHT();
-ahtData getAHTData();
+AhtData getAHTData();

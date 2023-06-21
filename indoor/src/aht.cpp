@@ -16,8 +16,8 @@ void checkAHT() {
     }
 }
 
-ahtData getAHTData() {
-    ahtData data;
+AhtData getAHTData() {
+    AhtData data;
     sensors_event_t humidity, temp;
     aht.getEvent(&humidity, &temp);
     data.hum = humidity.relative_humidity;

@@ -20,28 +20,19 @@ void setup() {
     delay(1000);
 }
 
-String createPayload(float temp, float hum) {
-    DynamicJsonDocument doc(1024);
-    doc["temperature"] = temp;
-    doc["relativeHumidity"] = hum;
-    String payload;
-    serializeJson(doc, payload);
-    return payload;
-}
-
 void loop() {
-    ahtData aht = getAHTData();
+    AhtData aht = getAHTData();
     updateDisplay(aht.temp, aht.hum);
+    int sleep = 1000;
     if (update < 1) {
-        String payload = createPayload(aht.temp, aht.hum);
-        if (sendData(payload) == 200) {
-            // TODO: parse response
-            update = 10;
-        } else {
-            delay(500);
+        APIResponse response = postIndoor(aht.temp, aht.hum, false);
+        if (response.success) {
+            sleep = response.sleepDurationMilliseconds;
+            Serial.printf("FanDutyCycle: %d%%\n", response.fanDutyCycle);
         }
+        Serial.printf("Waiting for: %dms\n", sleep);
     } else {
         update--;
     }
-    delay(1000);
+    delay(sleep);
 }
