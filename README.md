@@ -7,6 +7,7 @@ This project includes code to communicate with the [fan-control-backend](https:/
 ### Hardware:
 - WeMos D1 Mini
 - SSD1306 (indoor)
+- MC-38 (indoor)
 - AHT10
 - Li-Ion Battery (outdoor)
 
@@ -26,6 +27,11 @@ This project includes code to communicate with the [fan-control-backend](https:/
 1. Open [display.cpp](/indoor/src/display.cpp).
 2. Configure the `Display setup` section according to your display.
 3. You might wish to change the `AUTHOR` definition as well.
+
+### MC-38 (indoor only)
+
+1. Open [window.h](/indoor/src/window.h)
+2. Change `#define MC38PIN D4` according to your pin (Default: D4)
 
 ### HTTP
 
