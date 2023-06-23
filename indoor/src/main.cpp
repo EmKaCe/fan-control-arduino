@@ -5,6 +5,7 @@
 #include "http.h"
 #include "wifi.h"
 #include "window.h"
+#include "relay.h"
 
 int update = 0;
 
@@ -12,6 +13,7 @@ void setup() {
     // Display
     Serial.begin(9600);
     Serial.println("");
+    setupRelay();
     connectToWifi();
     delay(1000);
     checkDisplay();
@@ -30,6 +32,7 @@ void loop() {
         if (response.success) {
             sleep = response.sleepDurationMilliseconds;
             Serial.printf("FanDutyCycle: %d%%\n", response.fanDutyCycle);
+            setRelay(response.fanDutyCycle > 0);
         }
         Serial.printf("Waiting for: %dms\n", sleep);
     } else {
