@@ -6,4 +6,5 @@
 
 void setupRelay();
 
+bool getRelay();
 void setRelay(boolean state);

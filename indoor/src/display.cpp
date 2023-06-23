@@ -41,23 +41,31 @@ void setupDisplay() {
     display.setCursor(0, 5);
 }
 
-void updateDisplay(float temp, float hum) {
+void updateDisplay(float temp, float hum, bool windowOpen, bool fanOn) {
     display.clearDisplay();
     display.setTextColor(WHITE);
     display.setTextSize(1);
     display.setFont(&Org_01);
     display.setCursor(0, 5);
     display.printf("%s@H-BRS", AUTHOR);
-    display.setCursor(0, 30);
+    display.setCursor(0, 28);
     display.println("Sensor AHT_10:");
-    display.setCursor(0, 50);
+    display.setCursor(0, 38);
     display.println("Temp:");
-    display.setCursor(0, 57);
+    display.setCursor(0, 46);
     display.println("Hum:");
-    display.setCursor(37, 50);
-    display.printf(" %.2f C", temp);
-    display.setCursor(37, 57);
+    display.setCursor(0, 54);
+    display.println("Window:");
+    display.setCursor(0, 62);
+    display.println("Fan:");
+    display.setCursor(37, 38);
+    display.printf("%.2f C", temp);
+    display.setCursor(37, 46);
     display.printf("%.2f %%rH", hum);
+    display.setCursor(37, 54);
+    display.printf("%s", windowOpen ? "Open" : "Closed");
+    display.setCursor(37, 62);
+    display.printf("%s", fanOn ? "On" : "Off");
     
     // Logo
     display.fillCircle(113, 20, 10, 1);

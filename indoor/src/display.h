@@ -4,5 +4,5 @@
 
 void checkDisplay();
 void setupDisplay();
-void updateDisplay(float temp, float hum);
+void updateDisplay(float temp, float hum, bool windowOpen, bool fanOn);
 void displayMessage(String message);
