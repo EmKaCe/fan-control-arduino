@@ -19,13 +19,12 @@ void checkWifiStatus() {
     displayMessage("Connecting to WiFi: ");
     int times = 0;
     while (WiFi.status() != WL_CONNECTED) {
-        if (times++ > 30) {
-            displayMessage("\nCouldn't connect to WiFi\nPlease check connection!");
-            while (true) {
-                delay(1000000);
-            }
+        if (times++ > 10) {
+            displayMessage("\nCouldn't connect to WiFi.\nRestarting in 5 seconds.\n");
+            delay(5000);
+            ESP.reset();
         }
-        delay(5000);
+        delay(6000);
         displayMessage(".");
     }
     displayMessage("\nConnected!");
