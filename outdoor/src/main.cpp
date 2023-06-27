@@ -8,13 +8,32 @@
 int update = 0;
 
 void setup() {
+    rst_info *resetInfo;
+    resetInfo = ESP.getResetInfoPtr();
     Serial.begin(9600);
     Serial.println("");
+    String reason;
+    switch (resetInfo->reason) {
+        case REASON_DEEP_SLEEP_AWAKE:
+            reason = "Woke up from deep sleep!";
+            break;
+        case REASON_WDT_RST:
+            reason = "Watchdog Timeout!";
+            break;
+        case REASON_SOFT_RESTART:
+            reason = "Soft restart!";
+            break;
+        default:
+            reason = "Unkown!";
+            break;
+    }
+    Serial.println("Restarted because: " + reason);
     connectToWifi();
     delay(1000);
     checkAHT();
     checkWifiStatus();
     delay(1000);
+    ESP.wdtEnable(WDTO_8S);
 }
 
 void loop() {
@@ -25,10 +44,14 @@ void loop() {
         APIResponse response = postOutdoor(aht.temp, aht.hum, battery);
         if (response.success) {
             sleep = response.sleepDurationMilliseconds;
+            ESP.wdtFeed();
+        } else {
+            return;
         }
         Serial.printf("Deep Sleep for: %dms\n", sleep);
     } else {
         update--;
+        ESP.wdtFeed();
     }
     Serial.println("");
     Serial.printf("Temperature: %.2f˚C", aht.temp);

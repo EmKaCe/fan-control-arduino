@@ -20,9 +20,7 @@ void checkWifiStatus() {
     while (WiFi.status() != WL_CONNECTED) {
         if (times++ > 30) {
             Serial.println("\nCouldn't connect to WiFi\nPlease check connection!");
-            while (true) {
-                delay(1000000);
-            }
+            ESP.deepSleep(600000000); // Deep Sleep for 10 minutes
         }
         delay(5000);
         Serial.print(".");

@@ -2,7 +2,7 @@
 
 // API Configuration
 // Hostname of API backend
-String api = "10.42.0.1:8080";
+String api = "10.42.0.1:3002";
 
 APIResponse postOutdoor(float temp, float hum, float battery) {
     int code = -1;
@@ -25,7 +25,7 @@ APIResponse postOutdoor(float temp, float hum, float battery) {
     APIResponse data;
     data.success = code == HTTP_CODE_OK;
     if (data.success) {
-        DynamicJsonDocument doc(http.getSize());
+        DynamicJsonDocument doc(http.getSize() + 20);
         {
             const String& payload = http.getString();
             deserializeJson(doc, payload);
