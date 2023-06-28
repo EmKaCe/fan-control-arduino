@@ -6,8 +6,9 @@ String api = "10.42.0.1:3002";
 
 APIResponse postIndoor(float temp, float hum, bool window) {
     int code = -1;
-    WiFiClient client;
-    HTTPClient http;
+    std::unique_ptr<BearSSL::WiFiClientSecure>client(new BearSSL::WiFiClientSecure);
+    client->setInsecure();
+    HTTPClient https;
     {
         String payload;
         {
@@ -17,19 +18,19 @@ APIResponse postIndoor(float temp, float hum, bool window) {
             doc["windowOpen"] = window;
             serializeJson(doc, payload);
         }
-        http.begin(client, "http://" + api + "/indoor"); // TODO: Change this with HTTPs
-        http.addHeader("Content-Type", "application/json");
-        code = http.POST(payload);
+        https.begin(*client, "https://" + api + "/indoor");
+        https.addHeader("Content-Type", "application/json");
+        code = https.POST(payload);
     }
-
     APIResponse data;
     data.success = code == HTTP_CODE_OK;
+    Serial.println(https.getString());
     if (data.success) {
-        DynamicJsonDocument doc(http.getSize() + 32);
+        DynamicJsonDocument doc(https.getSize() + 32);
         {
-            const String& payload = http.getString();
+            const String& payload = https.getString();
             deserializeJson(doc, payload);
-            http.end();
+            https.end();
         }
         data.sleepDurationMilliseconds = doc["sleepDurationMilliseconds"].as<int>();
         data.fanDutyCycle = doc["fanDutyCycle"].as<int>();
