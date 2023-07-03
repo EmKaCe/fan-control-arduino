@@ -24,9 +24,8 @@ APIResponse postIndoor(float temp, float hum, bool window) {
     }
     APIResponse data;
     data.success = code == HTTP_CODE_OK;
-    Serial.println(https.getString());
     if (data.success) {
-        DynamicJsonDocument doc(https.getSize() + 32);
+        DynamicJsonDocument doc(512);
         {
             const String& payload = https.getString();
             deserializeJson(doc, payload);
