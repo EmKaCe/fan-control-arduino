@@ -31,6 +31,9 @@ void loop() {
         sleep = response.sleepDurationMilliseconds;
         Serial.printf("FanDutyCycle: %d%%\n", response.fanDutyCycle);
         setRelay(response.fanDutyCycle > 0);
+        if (sleep < 1000) {
+            sleep = 1000;
+        }
     }
     updateDisplay(aht.temp, aht.hum, window, getRelay());
     ESP.wdtFeed();

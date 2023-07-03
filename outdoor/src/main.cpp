@@ -48,6 +48,9 @@ void loop() {
         } else {
             return;
         }
+        if (sleep < 1000) {
+            sleep = 1000;
+        }
         Serial.printf("Deep Sleep for: %dms\n", sleep);
     } else {
         update--;
